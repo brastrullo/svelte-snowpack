@@ -9,6 +9,8 @@
     "snowpack": "^2.18.4"
   },
   "dependencies": {
+    "prismic-dom": "^2.2.4",
+    "prismic-javascript": "^3.0.2",
     "svelte": "^3.31.0"
   }
 }
