@@ -5,7 +5,7 @@ module.exports = {
     public: '/',
     src: '/dist',
   },
-  plugins: ['@snowpack/plugin-svelte'],
+  plugins: ['@snowpack/plugin-svelte', '@snowpack/plugin-postcss'],
   install: [
     /* ... */
   ],
