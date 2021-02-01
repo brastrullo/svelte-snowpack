@@ -15,6 +15,7 @@
     // { id: 2, name: 'Community', colour: 'bg-gray-700' },
     { id: 2, name: 'About', colour: 'bg-gray-900' },
   ];
+
   onMount(() => {
     // document.body.classList.add('fixed');
     document.body.classList.add('overflow-hidden');
@@ -85,7 +86,13 @@
     box-shadow: 0 0 2px 2px #ff6f6f; /* keyboard-only focus styles */
   }
 </style>
-
+/**
+* Dynamic Classes
+* PurgeCSS:
+* h-1/3
+* h-1/4
+* h-1/5
+**/
 <div class="h-screen w-screen fixed top-0 right-0 z-50">
   <div class="flex flex-col justify-end items-center align-middle h-full w-full">
     {#each menuItems as item,i}
