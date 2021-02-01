@@ -1,10 +1,13 @@
 import { writable } from 'svelte/store';
 import { ERROR, LOADING, LOADED } from './constants';
 import Prismic from 'prismic-javascript';
+const {
+  SNOWPACK_PUBLIC_PRISMIC_API_TOKEN,
+  SNOWPACK_PUBLIC_PRISMIC_API_URL,
+} = import.meta.env;
 
-const apiEndpoint = 'https://rastrdigital.cdn.prismic.io/api/v2';
-const apiToken =
-  'MC5YLUFBRHhBQUFDUUFWZ0E4.77-977-977-9He-_ve-_ve-_ve-_vWjvv73vv73vv71R77-977-977-9TjJIMu-_ve-_vT3vv70aZzXvv71dM--_vTc';
+const apiEndpoint = SNOWPACK_PUBLIC_PRISMIC_API_URL;
+const apiToken = SNOWPACK_PUBLIC_PRISMIC_API_TOKEN;
 // implement caching!!
 export const cache = new Map();
 export const data = writable(undefined);

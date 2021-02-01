@@ -5,7 +5,11 @@ module.exports = {
     public: '/',
     src: '/dist',
   },
-  plugins: ['@snowpack/plugin-svelte', '@snowpack/plugin-postcss'],
+  plugins: [
+    '@snowpack/plugin-svelte',
+    '@snowpack/plugin-postcss',
+    '@snowpack/plugin-dotenv',
+  ],
   install: [
     /* ... */
   ],
