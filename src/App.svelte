@@ -42,12 +42,12 @@
   @tailwind utilities;
   
   html {
-    height: 100vh;
+    height: 100%;
     overflow: hidden;
   }
   body {
     overflow: hidden;
-    height: 100vh;
+    height: 100%;
   }
 
   .App {
