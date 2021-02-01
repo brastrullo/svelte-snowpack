@@ -87,16 +87,17 @@
   }
 </style>
 /**
-* Dynamic Classes
 * PurgeCSS:
 * h-1/3
 * h-1/4
 * h-1/5
+* h-1/6
+* allows these dynamic classes
 **/
 <div class="h-screen w-screen fixed top-0 right-0 z-50">
   <div class="flex flex-col justify-end items-center align-middle h-full w-full">
     {#each menuItems as item,i}
-    <div transition:fly={{x: innerWidth, opacity: 0, delay: i*50}} class={`link-container ${item.colour} h-1/${menuItems.length}`}>
+    <div transition:fly={{x: innerWidth, opacity: 0, delay: i*50, duration: 200}} class={`link-container ${item.colour} h-1/${menuItems.length}`}>
       <button
         class="link"
         on:click={() => visitLink(item.name.toLowerCase())}
@@ -105,7 +106,7 @@
       </button>
     </div>
     {/each}
-    <button transition:fly={{x: 100, opacity: 0}} class="btn fixed top-2 right-2" on:click={toggleMenu}><span class="btn__icon" tabindex="-1"><Close /></span></button>
+    <button transition:fly={{x: 100, opacity: 0, duration: 200}} class="btn fixed top-2 right-2" on:click={toggleMenu}><span class="btn__icon" tabindex="-1"><Close /></span></button>
   </div>
 </div>
 
