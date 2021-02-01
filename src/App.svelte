@@ -1,97 +1,112 @@
 <script>
+  import { getData, data, dataState } from "./utils/fetchData";
+  import { LOADED, LOADING } from './utils/constants';
   import { onMount } from "svelte";
-  import { getData, data } from "./fetchData";
+  import Home from "./Home";
+  import OverlayUI from "./OverlayUI";
   import Section from "./Section.svelte";
+  import Highlights from "./Highlights.svelte";
+  import Experience from "./Experience.svelte";
+  // import Community from "./Community.svelte";
+  import About from "./About.svelte";
   let promise;
+  let innerHeight;
+  let innerWidth;
+  let __main;
+  let scrollTop;
+  let ticking = false;
 
-  onMount(async () => {
-    promise = getData();
+  onMount(() => {
+    window.scroll(0,0);
   });
+
+  $: if (__main) {
+    __main.addEventListener('scroll', function(e) {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          scrollTop = e.target.scrollTop;
+          if ($dataState === null){
+            promise = getData();
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  }
 </script>
 
-<style>
-  /* css will go here */
+<style global lang="postcss">
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+  
+  html {
+    height: 100vh;
+    overflow: hidden;
+  }
+  body {
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  .App {
+    height: 100vh;
+  }
+  main {
+    scroll-snap-type: mandatory;
+    scroll-snap-type: y mandatory;
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+  }
+
+  ::-webkit-scrollbar,
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar,
+  .App::-webkit-scrollbar,
+  main::-webkit-scrollbar {
+    display: none;
+  }
+
+  body, .App, main {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  *:focus:not(.focus-visible) {
+    outline: none;
+  }
+
+  .focus-visible {
+    outline: lightgreen solid 2px;
+  }
 </style>
 
-<div class="App">
-  {#if !$data}
-    <p>loading...</p>
-  {:else}
-    <header>
-      <img src={$data.contact.logo.url} alt={$data.contact.logo.alt}>
-      <a href={$data.contact.website.url}> {$data.contact.website.url} </a>
-      <div>{$data.contact.name}</div>
-      <div>
-        <span>{$data.contact.phone}</span>
-        |
-        <span>{$data.contact.area}</span>
-      </div>
-    </header>
-    <main>
-      <Section>
-        <h1 slot="title">{$data.headers[0]}</h1>
-        <ul slot="content">
-          {#each $data.highlights as highlight}
-            <li>
-              <span>{highlight.label}: </span><span>{highlight.item}</span>
-            </li>
-          {/each}
-        </ul>
+<svelte:window
+  bind:innerHeight={innerHeight}
+  bind:innerWidth={innerWidth}
+/>
+
+<div class={`App font-sans h-screen w-screen`}>
+  <main bind:this={__main} class:overflow-hidden={$dataState === LOADING}>
+    <Home />
+    {#if $data}
+      <Section index={1} sectionTitle={$data.headers[0]} hideHeader={true}>
+        <Highlights {data} />
       </Section>
-      <Section>
-        <h1 slot="title">{$data.headers[1]}</h1>
-        <ul slot="content">
-          {#each $data.skills as skills}
-            <li><span>{skills.label}: </span><span>{skills.item}</span></li>
-          {/each}
-        </ul>
+      <Section index={2} sectionTitle={$data.headers[1]}>
+        <Experience {data} />
       </Section>
-      <Section>
-        <h1 slot="title">{$data.headers[2]}</h1>
-        <article slot="content">
-          {#each $data.work as work}
-            <p>
-              <span>{`${work.position}, ${work.company}, ${work.work_area}`}</span>
-              <span>{`${work.start_date} - ${work.end_date}`}</span>
-            </p>
-            <ul>
-              {#each work.details as details}
-                <li>{details.item}</li>
-              {/each}
-            </ul>
-          {/each}
-        </article>
+      <!-- <Section sectionTitle={$data.headers[2]}>
+        <Community {data} />
+      </Section> -->
+      <Section index={3} sectionTitle={$data.headers[3]}>
+        <About {data} />
       </Section>
-      <Section>
-        <h1 slot="title">{$data.headers[4]}</h1>
-        <ul slot="content">
-          {#each $data.volunteer as volunteer}
-            <li>
-              <span>{`${volunteer.label}, ${volunteer.detail2}`}</span>
-              <span>{volunteer.start_date}</span>
-            </li>
-          {/each}
-        </ul>
-      </Section>
-      <Section>
-        <h1 slot="title">{$data.headers[5]}</h1>
-        <article slot="content">
-          <div>
-            <span>{$data.education.label}</span>
-            <span>{$data.education.start_date}</span>
-          </div>
-          <span>{`${$data.education.detail1} ${$data.education.detail2}`}</span>
-        </article>
-      </Section>
-      <Section>
-        <h1 slot="title">{$data.headers[6]}</h1>
-        <article slot="content">
-          {#each $data.interests as interests}
-            <p>{interests}</p>
-          {/each}
-        </article>
-      </Section>
-      <a href={$data.download.url} target="_blank" download={$data.download.name}>download</a>
-    </main>
-  {/if}
+    {:else}
+      <div class="h-screen w-screen" />
+    {/if}
+  </main>
+  <OverlayUI {__main} {scrollTop} {innerHeight} {innerWidth} />
 </div>

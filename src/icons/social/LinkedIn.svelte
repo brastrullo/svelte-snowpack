@@ -1,0 +1,1 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 40" fill="#000" fill-rule="evenodd"><path d="M44 40H34V26c0-4-1-6-5-6-2 0-4 1-4 3v17H15V13h10v4c0-2 3-4 8-4 6 0 11 3 11 12v15zM5 9C2 9 0 7 0 5c0-3 2-5 5-5s5 2 5 5c0 2-2 4-5 4zm-4 4h9v27H1V13z" /></svg>
