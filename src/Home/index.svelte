@@ -1,11 +1,13 @@
 <script>
-  import { dataState } from '../utils/fetchData';
+  import { dataState } from '../utils/store';
   import { LOADING } from '../utils/constants';
   import { fade } from 'svelte/transition';
   import Name from './Name.svelte';
   import ScrollDown from '../icons/ScrollDown.svelte';
   import Loading from '../icons/Loading.svelte';
   import ClickableCircle from '../icons/ClickableCircle.svelte';
+  import BackgroundPattern from '../BackgroundPattern.svelte';
+  export let classList = '';
 </script>
 <style>
   .home-container {
@@ -38,14 +40,14 @@
     font-family: 'Open Sans', sans-serif;
   }
 </style>
-<section data-index={0} class="home-container relative">
+<section data-index={0} class={`home-container relative ${classList}`}>
   <div class="style-container relative">
-    <div class="absolute top-1/4 -translate-y-1/2">
+    <!-- <BackgroundPattern /> -->
+    <div class="name-container absolute top-1/4 -translate-y-1/2">
       <Name />
     </div>
     <div class="absolute bottom-24 left-6 w-1/2">
       <p>I make digital experiences better.</p>
-      <p>This is my interactive resume.</p>
     </div>
     <ul class="nav-menu absolute bottom-8 right-8 text-right">
       <li><button class="flex flex-row flex-nowrap align-text-bottom"><span>contact</span><ClickableCircle /></button></li>

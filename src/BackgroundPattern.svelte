@@ -1,0 +1,26 @@
+<script>
+  import Pattern from './icons/pattern.svelte';
+</script>
+<style>
+  @font-face {
+    font-family: "Mazeletter Boxwood";
+    src: url("mazeletter-boxwood.woff2");
+  }
+
+  span {
+    font-family: 'Mazeletter Boxwood';
+    font-size: 5rem;
+  }
+  .bg {
+    background: url("data:image/svg+xml,%3Csvg fill='none' xmlns='http://www.w3.org/2000/svg' viewBox='2 2 14 10'%3E%3Cpath d='M7.02 4.74v.04H7l-.02-.01-3-3V.24.22l.04.01 3 3v1.51zm0 6.02v.02H7l-.02-.01-3-3V6.24l.73-.74L.98 1.77V.24.22l.04.01 4.5 4.5v1.54L4.8 7l2.23 2.23v1.53zm0 3v.02H7l-.02-.01-6-6V6.24l.73-.74-.73-.73V3.24v-.02l.04.01 1.5 1.5v1.54L1.8 7l5.23 5.23v1.53zm-3 0v.02H4l-.02-.01-3-3V9.24v-.02l.04.01 3 3v1.53zm9-9.02v.04H13l-.02-.01-3-3V.24.22l.04.01 3 3v1.51zm0 6.02v.02H13l-.02-.01-3-3V6.24l.73-.74-3.73-3.73V.24.22l.04.01 4.5 4.5v1.54L10.8 7l2.23 2.23v1.53zm0 3v.02H13l-.02-.01-6-6V6.24l.73-.74-.73-.73V3.24v-.02l.04.01 1.5 1.5v1.54L7.8 7l5.23 5.23v1.53zm-3 0v.02H10l-.02-.01-3-3V9.24v-.02l.04.01 3 3v1.53zm6-9.02v.04H16l-.02-.01-3-3V.24.22l.04.01 3 3v1.51zm0 3v.03l-3 3-.02.01h-.01l-.01-.02V9.24L15.2 7l-2.23-2.23V3.24v-.02l.04.01 3 3v1.51zm0 3.02l-3 3c0 .02-.01.02-.02.02h-.01l-.01-.02v-1.53l3-3 .03-.01.01.02v1.52z' fill='%23000'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 60px 60px;
+    width: 20rem;
+    height: 20rem;
+  }
+</style>
+
+<div>
+  <!-- <div class='bg'></div> -->
+  <span>llollo</span>
+</div>
