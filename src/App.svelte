@@ -1,24 +1,71 @@
 <script>
-  import { getData, data, dataState } from "./utils/fetchData";
+  import { getData, data, dataState, sectionsLoaded, isOmniOpen } from "./utils/store";
   import { LOADED, LOADING } from './utils/constants';
   import { onMount } from "svelte";
   import Home from "./Home";
   import OverlayUI from "./OverlayUI";
   import Section from "./Section.svelte";
-  import Highlights from "./Highlights.svelte";
   import Experience from "./Experience.svelte";
-  // import Community from "./Community.svelte";
+  import Projects from "./Projects.svelte";
+  import Skills from "./Skills.svelte";
   import About from "./About.svelte";
+  import debounce from 'lodash.debounce';
   let promise;
   let innerHeight;
   let innerWidth;
   let __main;
   let scrollTop;
   let ticking = false;
+  let containerRect;
+  let pageIndex;
+  let closeAllDetails;
+  
+  const callback = (entries, observer) => {
+    let prevPageIndex = pageIndex;
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        pageIndex = Number(entry.target.dataset.index);
+        if (pageIndex !== 1 && prevPageIndex === 1) {
+          console.log('leaving the experience section');
+          closeAllDetails();
+        }
+      } else {
+        isOmniOpen.set(false);
+      }
+    })
+  };
+
+  let observer = new IntersectionObserver(callback, {
+    root: document.querySelector('#vscroll'),
+    rootMargin: '0px',
+    threshold: .5
+  });
+
+  const resizeEvent = () => {
+    if (__main) {
+      containerRect = __main.getBoundingClientRect();
+      console.log('resize', containerRect);
+      document.querySelectorAll('.vscroll-item').forEach(target => {
+        observer.observe(target)
+      })
+    }
+  };
+
+  $: if (__main) {
+    containerRect = __main.getBoundingClientRect();
+  }
 
   onMount(() => {
     window.scroll(0,0);
+    window.addEventListener('resize', debounce(resizeEvent, 200, { leading: false }));
   });
+
+  $: if ($sectionsLoaded) {
+    const entries = document.querySelectorAll('.vscroll-item');
+    entries.forEach(target => {
+      observer.observe(target)
+    })
+  }
 
   $: if (__main) {
     __main.addEventListener('scroll', function(e) {
@@ -42,7 +89,7 @@
   @tailwind utilities;
   
   html {
-    height: 100%;
+    height: 100vh;
     overflow: hidden;
   }
   body {
@@ -51,7 +98,8 @@
   }
 
   .App {
-    height: 100vh;
+    height: 100%;
+    position: fixed;
   }
   main {
     scroll-snap-type: mandatory;
@@ -89,20 +137,20 @@
 />
 
 <div class={`App font-sans h-screen w-screen`}>
-  <main bind:this={__main} class:overflow-hidden={$dataState === LOADING}>
-    <Home />
+  <main id="vscroll" bind:this={__main} class:overflow-hidden={$dataState === LOADING}>
+    <Home classList="vscroll-item" />
     {#if $data}
-      <Section index={1} sectionTitle={$data.headers[0]} hideHeader={true}>
-        <Highlights {data} />
+      <Section classList="vscroll-item" index={1} sectionTitle={$data.headers[1]}>
+        <Experience bind:closeAllDetails {data} {pageIndex} />
       </Section>
-      <Section index={2} sectionTitle={$data.headers[1]}>
-        <Experience {data} />
+      <Section classList="vscroll-item" index={2} sectionTitle={'Projects'}>
+        <Projects {data} />
       </Section>
-      <!-- <Section sectionTitle={$data.headers[2]}>
-        <Community {data} />
-      </Section> -->
-      <Section index={3} sectionTitle={$data.headers[3]}>
-        <About {data} />
+      <Section classList="vscroll-item" index={3} sectionTitle={'Skills'}>
+        <Skills {data} />
+      </Section>
+      <Section classList="vscroll-item" index={4} sectionTitle={$data.headers[3]}>
+        <About {sectionsLoaded} {data} />
       </Section>
     {:else}
       <div class="h-screen w-screen" />

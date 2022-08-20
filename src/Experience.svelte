@@ -3,11 +3,10 @@
   import { onMount } from "svelte";
   import { fly } from 'svelte/transition';
   import Chevron from './icons/Chevron.svelte';
+  import CounterClockwise from './icons/CounterClockwise.svelte';
   import InfoCircle from './icons/iCircle.svelte';
   import debounce from 'lodash.debounce';
   export let data;
-  export let currentPage;
-  let showDetails;
   let hscrollContainer;
   let containerRect;
 
@@ -17,12 +16,19 @@
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         currentIndex = Number(entry.target.dataset.index);
-        console.log(entry, currentIndex);
       }
     })
   };
 
-  $: console.log({currentPage});
+  export const closeAllDetails = () => {
+    objectArr.update(arr => {
+      arr.forEach(obj => {
+        obj.show = false;
+      });
+      return arr;
+    });
+  };
+
   let observer = new IntersectionObserver(callback, {
     root: document.querySelector('#hscroll'),
     rootMargin: '0px',
@@ -60,6 +66,10 @@
     objectArr.set(copy);
   };
   const imgPos = ['right top', 'right top', 'center', 'left top'];
+  const lastCarouselPos = (i) => i !== null && i !== $data.work.length - 1;
+  const resetCarousel = () => {
+    hscrollContainer.scrollTo({left: 0});
+  };
   const slideImgRight = () => {
     hscrollContainer.scrollBy({left: containerRect.width, behavior: 'smooth'});
   };
@@ -133,10 +143,14 @@
     {/each}
     <span class="toggle-details-text flex flex-row items-center align-text-bottom align-items text-xs text-gray-400 absolute -bottom-6 left-0"><InfoCircle colour="gray" />Click to toggle details</span>
     {#if currentIndex !== null && currentIndex !== 0}
-      <button on:click={slideImgLeft} class="absolute top-1/2 -ml-4 rounded-r-lg left-0 p-2 bg-gray-700 bg-opacity-20 hover:bg-opacity-50 text-opacity-10"><Chevron direction="left" className="text-opacity-40 text-white" /></button>
+      <button on:click={slideImgLeft} class="absolute h-19 w-11 top-1/2 -ml-4 rounded-r-lg left-0 p-2 bg-gray-700 bg-opacity-20 hover:bg-opacity-50 text-opacity-10"><Chevron direction="left" className="text-opacity-40 text-white" /></button>
     {/if}
-    {#if currentIndex !== null && currentIndex !== $data.work.length - 1}
-      <button on:click={slideImgRight} class="absolute top-1/2 -mr-4 rounded-l-lg right-0 p-2 bg-gray-700 bg-opacity-20 hover:bg-opacity-50 text-opacity-10"><Chevron direction="right" className="text-opacity-40 text-white" /></button>
+    <button on:click={() => lastCarouselPos(currentIndex) ? slideImgRight() : resetCarousel()} class="absolute h-19 w-11 top-1/2 -mr-4 rounded-l-lg right-0 p-2 bg-gray-700 bg-opacity-20 hover:bg-opacity-50 text-opacity-10">
+    {#if lastCarouselPos(currentIndex)}
+      <Chevron direction="right" className="text-opacity-40 text-white" />
+    {:else}
+      <CounterClockwise height='3rem' width='1.75rem' className="text-opacity-40 text-white" />
     {/if}
+    </button>
   </div>
 </div>
