@@ -50,6 +50,19 @@ const clickHandler = () => {
     font-weight: 900;
     text-align: right;
   }
+
+  @media only screen and (min-width: 600px) {
+  .name-container {
+    font-size: 5rem;
+    margin-left: 2rem;
+  }
+  .icon-2 {
+    font-size: calc(6rem/4);
+  }
+  .name-subtitle, .name-dev {
+    font-size: 1rem;
+  }
+}
 </style>
 <div class="name-container">
   <span class="name-first">Bradley</span>
