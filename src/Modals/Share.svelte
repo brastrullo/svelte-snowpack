@@ -1,5 +1,5 @@
 <script>
-  import { data } from '../utils/fetchData';
+  import { data } from '../utils/store';
   import { onMount } from "svelte";
   let socials;
   onMount(() => {

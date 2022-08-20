@@ -1,5 +1,5 @@
 <script>
-  import { data, dataState } from '../utils/fetchData';
+  import { data, dataState, isOmniOpen } from '../utils/store';
   import { LOADED } from '../utils/constants';
   import { fade, fly } from "svelte/transition";
   import UIBanner from './UIBanner.svelte';
@@ -19,7 +19,6 @@
   let showModal;
   let showUIBanner = false;
   let modalComponent;
-  let showOmni = false;
   let dataLoaded = false;
   $: showHeader = innerHeight && scrollTop + (innerHeight/2) >= innerHeight;
   $: if ($dataState === LOADED && !dataLoaded) {
@@ -40,11 +39,8 @@
   };
   const toggleModal = () => {
     showModal = !showModal;
-    if (showModal) {
-      showOmni = false;
-    }
   };
-  $: console.log({showOmni})
+
   let modalObj = {
     share: Share,
     contact: Contact,
@@ -55,6 +51,10 @@
     console.log({modal, modalComponent})
     toggleModal();
   };
+
+  const omniCallback = (isOpen) => {
+    isOmniOpen.set(isOpen);
+  }
 
 </script>
 
@@ -91,11 +91,10 @@
     >
     {#if !showModal}
     <div transition:fly={{x:200}}>
-      <ToggleContent>
+      <ToggleContent show={$isOmniOpen} callback={omniCallback}>
         <button
-          on:click={() => { showOmni = !showOmni }}
           slot="button"
-          class:border-opacity-100={showOmni}
+          class:border-opacity-100={isOmniOpen}
           class="group absolute bottom-0 right-0 rounded-full h-12 w-12 mb-10 border-4 border-blue-700 border-opacity-20 bg-white bg-opacity-50"
         >
           <span transition:fade class="transition-hover duration-500 ease-in-out text-blue-100 opacity-0 group-hover:opacity-100">●</span>

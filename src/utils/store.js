@@ -12,6 +12,8 @@ const apiToken = SNOWPACK_PUBLIC_PRISMIC_API_TOKEN;
 export const cache = new Map();
 export const data = writable(undefined);
 export const dataState = writable(null);
+export const sectionsLoaded = writable(null);
+export const isOmniOpen = writable(false);
 
 const transformer = ({
   body,
@@ -21,6 +23,7 @@ const transformer = ({
   name,
   area,
   social,
+  icons,
   download,
   download_icon,
 }) => ({
@@ -47,6 +50,10 @@ const transformer = ({
   education: body[9].items[0],
   interests: body[10].items.map((obj) => obj.item),
   social,
+  icons: icons.body.reduce(
+    (icons, obj) => ({ ...icons, [obj.primary.set]: obj.items }),
+    {}
+  ),
   download: {
     ...download,
     icon: download_icon.url,
@@ -64,10 +71,13 @@ export const getData = async () => {
     const querySocial = await api.query(
       Prismic.Predicates.at('document.type', 'social_share')
     );
-
+    const icons = await api.query(
+      Prismic.Predicates.at('document.type', 'icons')
+    );
     const res = await {
       ...query.results[0].data,
       social: querySocial.results[0].data.social,
+      icons: icons.results[0].data,
     };
 
     data.set(transformer(res));

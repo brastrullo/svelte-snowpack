@@ -47,7 +47,7 @@
       <Name />
     </div>
     <div class="absolute bottom-24 left-6 w-1/2">
-      <p>I make digital experiences better.</p>
+      <p>Much more to come soon.</p>
     </div>
     <ul class="nav-menu absolute bottom-8 right-8 text-right">
       <li><button class="flex flex-row flex-nowrap align-text-bottom"><span>contact</span><ClickableCircle /></button></li>

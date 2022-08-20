@@ -4,13 +4,13 @@
   export let root = null;
   export let rootMargin = '0px';
   export let threshold = .5;
+  export let classList = '';
   let element;
 
   let observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
+    entries.forEach((entry, entryIndex) => {
       if (entry.isIntersecting) {
-        callback()
-        console.log(entry)
+        callback({...entry, entryIndex, observerObj: observer})
       }
     })
   }, {
@@ -24,7 +24,7 @@
   });
   </script>
 
-  <div bind:this={element}>
+  <div bind:this={element} class={classList}>
     <slot>
       <p>Provide content</p>
     </slot>

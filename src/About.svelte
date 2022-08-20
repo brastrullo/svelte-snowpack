@@ -1,5 +1,9 @@
 <script>
+  import ScheduleMe from './ScheduleMe.svelte';
   export let data;
+  export let sectionsLoaded;
+
+  sectionsLoaded.update(() => true);
 </script>
 <article>
   {#if $data}
@@ -8,5 +12,6 @@
     {#each $data.interests as interests}
       <p>{interests}</p>
     {/each}
+    <ScheduleMe />
   {/if}
 </article>
