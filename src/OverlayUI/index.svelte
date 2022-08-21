@@ -46,7 +46,8 @@
     contact: Contact,
     download: Download
   };
-  const selectModal = (modal) => {
+
+  export const selectModal = (modal) => {
     modalComponent = modalObj[modal];
     console.log({modal, modalComponent})
     toggleModal();
@@ -72,15 +73,20 @@
   }
   .share::before {
     content: 'share';
+    pointer-events: all;
   }
   .contact::before {
     content: 'contact';
     position: absolute;
     right: 1.75rem;
+    pointer-events: all;
   }
   .download::before {
     content: 'download';
+    pointer-events: all;
+    font-family: 'Open Sans', sans-serif;
   }
+
 </style>
 <div>
   {#if showHeader}
@@ -94,7 +100,7 @@
       <ToggleContent show={$isOmniOpen} callback={omniCallback}>
         <button
           slot="button"
-          class:border-opacity-100={isOmniOpen}
+          class:border-opacity-100={$isOmniOpen}
           class="group absolute bottom-0 right-0 rounded-full h-12 w-12 mb-10 border-4 border-blue-700 border-opacity-20 bg-white bg-opacity-50"
         >
           <span transition:fade class="transition-hover duration-500 ease-in-out text-blue-100 opacity-0 group-hover:opacity-100">●</span>
@@ -107,7 +113,7 @@
             <div class="pointer-events-auto hover:border-blue-600 transition duration-350 ease-in-out h-6 w-6 ml-0.5 rounded-full border-4 border-blue-400" />
           </button>
           <button on:click={() => {selectModal('download')}} transition:fly={{y:-40}} class="btn download absolute bottom-0 right-3 mb-2 flex flex-row align-items items-center">
-            <div class="pointer-events-auto hover:border-blue-600 transition duration-350 ease-in-out h-6 w-6 ml-0.5 rounded-full border-4 border-blue-400" />
+            <div class=" pointer-events-auto hover:border-blue-600 transition duration-350 ease-in-out h-6 w-6 ml-0.5 rounded-full border-4 border-blue-400" />
           </button>
         </div>
       </ToggleContent>

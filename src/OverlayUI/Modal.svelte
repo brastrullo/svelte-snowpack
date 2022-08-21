@@ -17,7 +17,7 @@
     @apply h-auto w-auto;
   }
 </style>
-<div on:click={modalHandler} class="h-screen w-screen top-0 left-0 fixed flex flex-col justify-center items-center bg-opacity-20 bg-gray-800">
+<div on:click={modalHandler} class="h-screen w-screen top-0 left-0 fixed flex flex-col justify-center items-center bg-opacity-20 bg-gray-800 backdrop-blur-[80px]">
   <div bind:this={modal} class="modal-container relative bg-white shadow-md rounded-md">
     <button class="absolute top-0 right-0" on:click={toggleModal}><Close /></button>
     <div class="h-full w-full p-8">

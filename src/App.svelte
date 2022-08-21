@@ -19,6 +19,7 @@
   let containerRect;
   let pageIndex;
   let closeAllDetails;
+  let selectModal;
   
   const callback = (entries, observer) => {
     let prevPageIndex = pageIndex;
@@ -138,7 +139,7 @@
 
 <div class={`App font-sans h-screen w-screen`}>
   <main id="vscroll" bind:this={__main} class:overflow-hidden={$dataState === LOADING}>
-    <Home classList="vscroll-item" />
+    <Home {selectModal} classList="vscroll-item" />
     {#if $data}
       <Section classList="vscroll-item" index={1} sectionTitle={$data.headers[1]}>
         <Experience bind:closeAllDetails {data} {pageIndex} />
@@ -156,5 +157,5 @@
       <div class="h-screen w-screen" />
     {/if}
   </main>
-  <OverlayUI {__main} {scrollTop} {innerHeight} {innerWidth} />
+  <OverlayUI bind:selectModal {__main} {scrollTop} {innerHeight} {innerWidth} />
 </div>

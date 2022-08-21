@@ -7,9 +7,15 @@
   import Loading from '../icons/Loading.svelte';
   import ClickableCircle from '../icons/ClickableCircle.svelte';
   import BackgroundPattern from '../BackgroundPattern.svelte';
+  export let selectModal;
   export let classList = '';
 </script>
 <style>
+
+  .adline-copy {
+    font-family: 'Open Sans', san-serif;
+  }
+
   .home-container {
     scroll-snap-align: end;
     height: 100vh;
@@ -46,11 +52,11 @@
     <div class="name-container absolute top-1/4 -translate-y-1/2">
       <Name />
     </div>
-    <div class="absolute bottom-24 left-6 w-1/2">
-      <p>Much more to come soon.</p>
+    <div class="absolute bottom-24 left-7 w-1/2">
+      <p class="adline-copy">Much more to come soon.</p>
     </div>
     <ul class="nav-menu absolute bottom-8 right-8 text-right">
-      <li><button class="flex flex-row flex-nowrap align-text-bottom"><span>contact</span><ClickableCircle /></button></li>
+      <li><button on:click={() => selectModal('contact')} class="flex flex-row flex-nowrap align-text-bottom"><span>contact</span><ClickableCircle /></button></li>
     </ul>
   </div>
   <span class="version absolute bottom-2 left-2 text-gray-200 text-xs text-bold">v1.0</span>
