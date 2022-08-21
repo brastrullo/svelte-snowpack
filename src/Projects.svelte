@@ -1,6 +1,7 @@
 <script>
   import { data } from './utils/store';
   import ProjectItem from './ProjectItem.svelte';
+  import {getColour} from './utils/utils.js';
   export let projects = [
     {
       name: 'bradras.dev',
@@ -30,6 +31,7 @@
 </script>
 <ul>
   {#each projects as project}
-    <ProjectItem {project} />
+    <ProjectItem {project} colour={getColour()} />
   {/each}
 </ul>
+
